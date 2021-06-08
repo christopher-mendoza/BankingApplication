@@ -9,4 +9,5 @@ public interface AccountService {
 	Account getAccount(Integer id);
 	List<Account> getAllAccounts();
 	boolean updateAccount(Account a);
+	boolean deleteAccount(Account a);
 }
