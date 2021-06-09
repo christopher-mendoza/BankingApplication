@@ -2,10 +2,14 @@ package dev.mendoza.servicetests;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
 import dev.mendoza.models.Account;
+import dev.mendoza.models.Transaction;
+import dev.mendoza.models.User;
 import dev.mendoza.services.AccountServiceImpl;
 
 public class AccountServiceTests {
@@ -32,4 +36,12 @@ public class AccountServiceTests {
 	}
 	
 
+	@Test @Ignore
+	public void getAllAccountsByUserTest() {
+		User u = new User("Marigold", "mari", "remedy");
+		List<Account> accounts = impl.getAllAccountsByUser(u);
+		for(Account a : accounts) {
+			System.out.println(a);
+		}
+	}
 }

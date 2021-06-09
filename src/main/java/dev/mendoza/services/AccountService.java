@@ -9,6 +9,7 @@ public interface AccountService {
 	boolean addAccount(Account a);
 	Account getAccount(Integer id);
 	List<Account> getAllAccounts();
+	List<Account> getAllAccountsByUser(User u);
 	boolean approve(Account a);
 	boolean deny(Account a);
 	boolean changeBal(Account a, float newBal);

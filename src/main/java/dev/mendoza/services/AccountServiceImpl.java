@@ -1,9 +1,11 @@
 package dev.mendoza.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.mendoza.daos.AccountDAO;
 import dev.mendoza.models.Account;
+import dev.mendoza.models.Transaction;
 import dev.mendoza.models.User;
 
 public class AccountServiceImpl implements AccountService {
@@ -23,6 +25,21 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public List<Account> getAllAccounts() {
 		return adao.getAllAccounts();
+	}
+	
+	@Override
+	public List<Account> getAllAccountsByUser(User u) {
+		List<Account> userAccounts = new ArrayList<Account>();
+		for(Account a : adao.getAllAccounts()) {
+			if(a.getUsername().equals(u.getUsername())) {
+				userAccounts.add(a);
+			}
+		}
+		if(userAccounts.isEmpty()) {
+			System.out.println("No accounts under this user.");
+			return null;
+		}
+		return userAccounts;
 	}
 	
 	@Override
