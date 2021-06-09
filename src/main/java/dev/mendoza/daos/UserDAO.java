@@ -69,33 +69,6 @@ public class UserDAO {
 		return null;
 	}
 	
-	public List<Account> getUserAccounts(User u) {
-		String sql = "SELECT user_id, name, u_username, password, admin, "
-				+ "account_id, a_acc_num, a_amount, approved "
-				+ "FROM users "
-				+ "LEFT JOIN accounts ON u_username = a_username "
-				+ "WHERE u_username = ?;";
-		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1,  u.getUsername());
-			ResultSet rs = ps.executeQuery();
-			List<Account> accounts = new ArrayList<Account>();
-			while(rs.next()) {
-				Account a = new Account();
-				a.setId(rs.getInt("account_id"));
-				a.setAccNum(rs.getInt("a_acc_num"));
-				a.setBalance(rs.getFloat("a_amount"));
-				a.setApproved(rs.getBoolean("approved"));
-				accounts.add(a);
-			}
-			return accounts;
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 	public List<User> getAll() {
 		String sql = "SELECT * FROM users";
 		try {
@@ -105,6 +78,10 @@ public class UserDAO {
 			while(rs.next()) {
 				User u = new User();
 				u.setId(rs.getInt("user_id"));
+				u.setName(rs.getString("name"));
+				u.setUsername(rs.getString("u_username"));
+				u.setPassword(rs.getString("password"));
+				u.setAdmin(rs.getBoolean("admin"));
 				users.add(u);
 			}
 			return users;
@@ -115,11 +92,4 @@ public class UserDAO {
 		return null;
 	}
 	
-	public boolean update(User change) {
-		return false;
-	}
-	
-	public boolean delete(User u) {
-		return false;
-	}
 }

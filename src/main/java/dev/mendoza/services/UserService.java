@@ -8,6 +8,4 @@ public interface UserService {
 	boolean addUser(User u);
 	User getUser(String username);
 	List<User> getAllUsers();
-	boolean updateUser(User u);
-	boolean deleteUser(User u);
 }

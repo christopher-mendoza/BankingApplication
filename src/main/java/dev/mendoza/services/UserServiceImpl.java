@@ -25,15 +25,5 @@ public class UserServiceImpl implements UserService {
 		return udao.getAll();
 	}
 
-	@Override
-	public boolean updateUser(User u) {
-		return udao.update(u);
-	}
-
-	@Override
-	public boolean deleteUser(User u) {
-		return udao.delete(u);
-	}
-
 
 }
