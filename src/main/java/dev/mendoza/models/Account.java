@@ -1,28 +1,27 @@
 package dev.mendoza.models;
 
-import java.util.List;
-
 public class Account {
 	private Integer id;
+	private String username;
 	private Integer accNum;
 	private Float balance;
 	private Boolean approved;
-
-	private List<Transaction> transactions;
 	
 	public Account() {
 		super();
 	}
 
-	public Account(Integer accNum, Float balance) {
+	public Account(String username, Integer accNum, Float balance) {
 		super();
+		this.username = username;
 		this.accNum = accNum;
 		this.balance = balance;
 	}
 
-	public Account(Integer id, Integer accNum, Float balance) {
+	public Account(Integer id, String username, Integer accNum, Float balance) {
 		super();
 		this.id = id;
+		this.username = username;
 		this.accNum = accNum;
 		this.balance = balance;
 	}
@@ -33,6 +32,14 @@ public class Account {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public Integer getAccNum() {
@@ -59,14 +66,6 @@ public class Account {
 		this.approved = approved;
 	}
 
-	public List<Transaction> getTransactions() {
-		return transactions;
-	}
-
-	public void setTransactions(List<Transaction> transactions) {
-		this.transactions = transactions;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -75,7 +74,7 @@ public class Account {
 		result = prime * result + ((approved == null) ? 0 : approved.hashCode());
 		result = prime * result + ((balance == null) ? 0 : balance.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((transactions == null) ? 0 : transactions.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -108,22 +107,21 @@ public class Account {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (transactions == null) {
-			if (other.transactions != null)
+		if (username == null) {
+			if (other.username != null)
 				return false;
-		} else if (!transactions.equals(other.transactions))
+		} else if (!username.equals(other.username))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", accNum=" + accNum + ", balance=" + balance + ", approved=" + approved
-				+ ", transactions=" + transactions + "]";
+		return "Account [id=" + id + ", username=" + username + ", accNum=" + accNum + ", balance=" + balance
+				+ ", approved=" + approved + "]";
 	}
 
 	
-
 }
 
 

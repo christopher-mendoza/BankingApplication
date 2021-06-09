@@ -3,11 +3,12 @@ package dev.mendoza.services;
 import java.util.List;
 
 import dev.mendoza.models.Account;
+import dev.mendoza.models.User;
 
 public interface AccountService {
-	Account addAccount(Account a);
+	boolean addAccount(Account a);
 	Account getAccount(Integer id);
-	List<Account> getAllAccounts();
-	boolean updateAccount(Account a);
-	boolean deleteAccount(Account a);
+	List<Account> getAllAccounts(User u);
+	boolean approve(Account a);
+	boolean deny(Account a);
 }
