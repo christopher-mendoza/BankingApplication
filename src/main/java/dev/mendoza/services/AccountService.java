@@ -12,4 +12,7 @@ public interface AccountService {
 	boolean approve(Account a);
 	boolean deny(Account a);
 	boolean changeBal(Account a, float newBal);
+	boolean withdraw(Account a, float with);
+	boolean deposit(Account a, float dep);
+	boolean transfer(Account a, Account b, float trans);
 }

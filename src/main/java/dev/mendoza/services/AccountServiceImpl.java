@@ -40,4 +40,33 @@ public class AccountServiceImpl implements AccountService {
 		return adao.changeBal(a, newBal);
 	}
 
+	@Override
+	public boolean withdraw(Account a, float with) {
+		if(with <= 0 || a.getBalance() < with) {
+			return false;
+		}
+		adao.changeBal(a, a.getBalance() - with);
+		return true;
+	}
+
+	@Override
+	public boolean deposit(Account a, float dep) {
+		if(dep <= 0) {
+			return false;
+		}
+		adao.changeBal(a, a.getBalance() + dep);
+		return true;
+	}
+
+	// Account a giving Account b trans amount
+	@Override
+	public boolean transfer(Account a, Account b, float trans) {
+		if(trans <= 0 || a.getBalance() < trans) {
+			return false;
+		}
+		withdraw(a, trans);
+		deposit(b, trans);
+		return true;
+	}
+
 }
