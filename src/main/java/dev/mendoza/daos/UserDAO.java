@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.mendoza.models.Account;
@@ -47,6 +48,11 @@ public class UserDAO {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
+			// Checks if ResultSet would return nothing (bad input)
+			if(!rs.isBeforeFirst()) {
+				System.out.println("I could not find the user \"" + username + "\". Please try again.");
+				return null;
+			}
 			if(rs.next()) {
 				User u = new User();
 				u.setId(rs.getInt("user_id"));
@@ -63,7 +69,49 @@ public class UserDAO {
 		return null;
 	}
 	
+	public List<Account> getUserAccounts(User u) {
+		String sql = "SELECT user_id, name, u_username, password, admin, "
+				+ "account_id, a_acc_num, a_amount, approved "
+				+ "FROM users "
+				+ "LEFT JOIN accounts ON u_username = a_username "
+				+ "WHERE u_username = ?;";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1,  u.getUsername());
+			ResultSet rs = ps.executeQuery();
+			List<Account> accounts = new ArrayList<Account>();
+			while(rs.next()) {
+				Account a = new Account();
+				a.setId(rs.getInt("account_id"));
+				a.setAccNum(rs.getInt("a_acc_num"));
+				a.setBalance(rs.getFloat("a_amount"));
+				a.setApproved(rs.getBoolean("approved"));
+				accounts.add(a);
+			}
+			return accounts;
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public List<User> getAll() {
+		String sql = "SELECT * FROM users";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			List<User> users = new ArrayList<User>();
+			while(rs.next()) {
+				User u = new User();
+				u.setId(rs.getInt("user_id"));
+				users.add(u);
+			}
+			return users;
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
