@@ -13,7 +13,7 @@ public class UserServiceImpl implements UserService {
 	public boolean addUser(User u) {
 		return udao.add(u);
 	}
-
+	
 	@Override
 	public User getUser(String username) {
 		return udao.getUser(username);
@@ -24,6 +24,8 @@ public class UserServiceImpl implements UserService {
 	public List<User> getAllUsers() {
 		return udao.getAllUsers();
 	}
+
+
 
 
 }
