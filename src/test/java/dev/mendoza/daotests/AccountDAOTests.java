@@ -18,9 +18,9 @@ public class AccountDAOTests {
 	
 	@Test @Ignore
 	public void accountAddTest() {
-		Account a = new Account("slurp", 12345678, 20000.45f);
+		Account a = new Account("slurp", 123456789, 20000.45f);
 		if(adao.add(a)) {
-			System.out.println("User Add Test Works");
+			System.out.println("Account Add Test Works");
 		}
 	}
 
@@ -30,11 +30,10 @@ public class AccountDAOTests {
 		System.out.println(adao.getAccount(i));
 	}
 	
-	@Test @Ignore
+	@Test
 	public void accountGetAllTest() {
-		User u = new User("Marigold", "mari", "remedy");
 		List<Account> accounts = new ArrayList<Account>();
-		accounts = adao.getAllAccounts(u);
+		accounts = adao.getAllAccounts();
 		for(Account a : accounts) {
 			System.out.println(a);
 		}

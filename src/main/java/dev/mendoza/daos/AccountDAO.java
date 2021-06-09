@@ -69,21 +69,16 @@ public class AccountDAO {
 		return null;
 	}
 	
-	public List<Account> getAllAccounts(User u) {
-		String sql = "SELECT user_id, name, u_username, password, admin, "
-				+ "account_id, a_acc_num, a_amount, approved "
-				+ "FROM users "
-				+ "LEFT JOIN accounts ON u_username = a_username "
-				+ "WHERE u_username = ?;";
+	public List<Account> getAllAccounts() {
+		String sql = "SELECT * FROM accounts;";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1,  u.getUsername());
 			ResultSet rs = ps.executeQuery();
 			List<Account> accounts = new ArrayList<Account>();
 			while(rs.next()) {
 				Account a = new Account();
 				a.setId(rs.getInt("account_id"));
-				a.setUsername(rs.getString("u_username"));
+				a.setUsername(rs.getString("a_username"));
 				a.setAccNum(rs.getInt("a_acc_num"));
 				a.setBalance(rs.getFloat("a_amount"));
 				a.setApproved(rs.getBoolean("approved"));

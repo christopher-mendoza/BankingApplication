@@ -16,12 +16,12 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public Transaction getTransaction(Integer id) {
-		return tdao.getById(id);
+		return tdao.getTransaction(id);
 	}
 
 	@Override
 	public List<Transaction> getAllTransactions() {
-		return tdao.getAll();
+		return tdao.getAllTransactions();
 	}
 
 }

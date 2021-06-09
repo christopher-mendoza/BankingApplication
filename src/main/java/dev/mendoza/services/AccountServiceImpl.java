@@ -21,8 +21,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public List<Account> getAllAccounts(User u) {
-		return adao.getAllAccounts(u);
+	public List<Account> getAllAccounts() {
+		return adao.getAllAccounts();
 	}
 	
 	@Override
