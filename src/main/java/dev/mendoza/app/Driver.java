@@ -1,18 +1,33 @@
 package dev.mendoza.app;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import dev.mendoza.models.Account;
 import dev.mendoza.models.User;
+import dev.mendoza.services.AccountServiceImpl;
+import dev.mendoza.services.TransactionServiceImpl;
 import dev.mendoza.services.UserServiceImpl;
 
 public class Driver {
 	
 	public static void customerOptions() {
-		
+		System.out.println("**********USER MENU*********");
+		System.out.println("(1) Apply For New Account\n" +
+							"(2) View Balance\n" +
+							"(3) Deposit\n" +
+							"(4) Withdraw\n" + 
+							"(5) Transfer Funds\n" + 
+							"(6) Logout");
 	}
 	
 	public static void adminOptions() {
-		
+		System.out.println("*********ADMIN MENU********");
+		System.out.println("(1) Approve/Reject Accounts\n" +
+							"(2) View Customer Accounts\n" +
+							"(3) View All Transactions\n" +
+							"(4) Logout");
 	}
 	
 	public static void loginOptions() {
@@ -34,10 +49,12 @@ public class Driver {
 		//Initial setup
 		boolean instance = true;
 		String userInputStr = "";
-		int userInputInt = 0;
-		float userInputFloat = 0.0f;
 		Scanner userScan = new Scanner(System.in);
+		
+		// Service inits
 		UserServiceImpl uService = new UserServiceImpl();
+		AccountServiceImpl aService = new AccountServiceImpl();
+		TransactionServiceImpl tService = new TransactionServiceImpl();
 		
 		
 		System.out.println("Hello! Welcome to the Mendoza Bank!");
@@ -49,6 +66,77 @@ public class Driver {
 					// Login
 					case "1": {
 						System.out.println("************LOGIN***********");
+						User login = new User();
+						System.out.println("Please enter your username:");
+						userInputStr = userScan.nextLine();
+						login.setUsername(userInputStr);
+						System.out.println("Please enter your password:");
+						userInputStr = userScan.nextLine();
+						login.setPassword(userInputStr);
+						System.out.println("Logging in with\nUsername: " + login.getUsername() +
+											"\nPassword: " + login.getPassword());
+						// Check if username exists in table
+						if(uService.getUser(login.getUsername()) != null) {
+							// Check password is tied to username
+							if(uService.getUser(login.getUsername()).getPassword().equals(login.getPassword())) {
+								boolean loggedIn = true;
+								// Check admin status of user
+								if(uService.getUser(login.getUsername()).getAdmin() == true) {
+									while(loggedIn) {
+										adminOptions();
+										userInputStr = userScan.nextLine();
+										if(userInputStr.matches("\\d")) {
+											switch(userInputStr) {
+												// Admin Approve/Reject Accounts
+												case "1": {
+													System.out.println("Approve/Reject Accounts");
+													List<Account> unapproved = new ArrayList<Account>();
+													unapproved = aService.getAllAccounts();
+													for(Account a : unapproved) {
+														System.out.println(a);
+													}
+													break;
+												}
+												
+												// Admin View Customer Accounts
+												case "2": {
+													System.out.println("View Customer Accounts");
+													break;
+												}
+												
+												// Admin View All Transactions
+												case "3": {
+													System.out.println("View All Transactions");
+													break;
+												}
+					
+												// Admin Logout
+												case "4": {
+													System.out.println("Logout");
+													loggedIn = false;
+													break;
+												}
+												
+												// Admin Input Error
+												default: {
+													userInputError(userInputStr);
+													break;
+												}
+											}
+										}
+										else {
+											System.out.println("I did not understand the input, please try again.");
+										}
+									}
+								}
+								else {
+									
+								}
+							}
+						}
+						else {
+							System.out.println("Could not login.");
+						}
 						break;
 					}
 					

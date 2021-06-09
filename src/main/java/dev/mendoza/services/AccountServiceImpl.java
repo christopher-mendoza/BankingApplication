@@ -28,6 +28,21 @@ public class AccountServiceImpl implements AccountService {
 	}
 	
 	@Override
+	public List<Account> getAllUnapprovedAccounts() {
+		List<Account> unapproved = new ArrayList<Account>();
+		for(Account a : adao.getAllAccounts()) {
+			if(a.getApproved() == false) {
+				unapproved.add(a);
+			}
+		}
+		if(unapproved.isEmpty()) {
+			System.out.println("No unapproved accounts.");
+			return null;
+		}
+		return unapproved;
+	}
+	
+	@Override
 	public List<Account> getAllAccountsByUser(User u) {
 		List<Account> userAccounts = new ArrayList<Account>();
 		for(Account a : adao.getAllAccounts()) {

@@ -44,4 +44,12 @@ public class AccountServiceTests {
 			System.out.println(a);
 		}
 	}
+	
+	@Test
+	public void getAllUnapprovedAccountsTest() {
+		List<Account> unapproved = impl.getAllUnapprovedAccounts();
+		for(Account a : unapproved) {
+			System.out.println(a);
+		}
+	}
 }
