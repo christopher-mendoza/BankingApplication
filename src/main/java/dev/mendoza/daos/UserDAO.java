@@ -1,5 +1,6 @@
 package dev.mendoza.daos;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,22 +27,13 @@ public class UserDAO {
 	public boolean add(User u) {
 		String sql = "INSERT INTO users VALUES (default, ?, ?, ?, FALSE) RETURNING *;";
 		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, u.getName());
-			ps.setString(2, u.getUsername());
-			ps.setString(3, u.getPassword());
-			boolean success = ps.execute();
-			if(success) {
-				ResultSet rs = ps.getResultSet();
-				if(rs.next()) {
-					u.setId(rs.getInt("user_id"));
-					return true;
-				}
-				
-			}
-			else {
-				System.out.println("Could not add user. Please try again.");
-			}
+			CallableStatement cs = conn.prepareCall(sql);
+			cs.setString(1, u.getName());
+			cs.setString(2, u.getUsername());
+			cs.setString(3, u.getPassword());
+			cs.execute();
+			cs.close();
+			return true;
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

@@ -30,7 +30,7 @@ public class TransactionDAO {
 			CallableStatement cs = conn.prepareCall(sql);
 			cs.setInt(1, t.getAccNum());
 			cs.setString(2, String.valueOf(t.getType()));
-			cs.setFloat(3,  t.getAmount());
+			cs.setFloat(3, t.getAmount());
 			cs.execute();
 			cs.close();
 			return true;

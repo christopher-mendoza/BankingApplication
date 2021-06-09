@@ -17,7 +17,7 @@ public class UserDAOTests {
 
 	@Test
 	public void userAddTest() {
-		User u = new User("Chicken", "Gggamer", "soup");
+		User u = new User("Chicken", "gggamer", "soup");
 		if(udao.add(u)) {
 			System.out.println("User Add Test Works");
 		}
@@ -30,7 +30,7 @@ public class UserDAOTests {
 	}
 	
 	@Test @Ignore
-	public void userGetAllTest() {
+	public void userGetAllUsersTest() {
 		List<User> users = udao.getAllUsers();
 		for(User u : users) {
 			System.out.println(u);
