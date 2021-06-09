@@ -27,21 +27,13 @@ public class AccountDAO {
 	public boolean add(Account a) {
 		String sql = "INSERT INTO accounts VALUES (default, ?, ?, ?, FALSE) RETURNING *;";
 		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, a.getUsername());
-			ps.setInt(2, a.getAccNum());
-			ps.setFloat(3, a.getBalance());
-			boolean success = ps.execute();
-			if(success) {
-				ResultSet rs = ps.getResultSet();
-				if(rs.next()) {
-					a.setId(rs.getInt("account_id"));
-					return true;
-				}
-				else {
-					System.out.println("Could not add account. Please try again.");
-				}
-			}
+			CallableStatement cs = conn.prepareCall(sql);
+			cs.setString(1, a.getUsername());
+			cs.setInt(2, a.getAccNum());
+			cs.setFloat(3, a.getBalance());
+			cs.execute();
+			cs.close();
+			return true;
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

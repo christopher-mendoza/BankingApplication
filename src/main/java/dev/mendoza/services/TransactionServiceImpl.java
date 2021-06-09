@@ -10,7 +10,7 @@ public class TransactionServiceImpl implements TransactionService {
 	private static TransactionDAO tdao = new TransactionDAO();
 	
 	@Override
-	public Transaction addTransaction(Transaction t) {
+	public boolean addTransaction(Transaction t) {
 		return tdao.add(t);
 	}
 
@@ -22,16 +22,6 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public List<Transaction> getAllTransactions() {
 		return tdao.getAll();
-	}
-
-	@Override
-	public boolean updateTransaction(Transaction t) {
-		return tdao.update(t);
-	}
-
-	@Override
-	public boolean deleteTransaction(Transaction t) {
-		return tdao.delete(t);
 	}
 
 }

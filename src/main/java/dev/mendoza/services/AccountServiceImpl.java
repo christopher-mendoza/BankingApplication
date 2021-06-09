@@ -27,14 +27,17 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Override
 	public boolean approve(Account a) {
-		// TODO Auto-generated method stub
-		return false;
+		return adao.approve(a);
 	}
 
 	@Override
 	public boolean deny(Account a) {
-		// TODO Auto-generated method stub
-		return false;
+		return adao.deny(a);
+	}
+
+	@Override
+	public boolean changeBal(Account a, float newBal) {
+		return adao.changeBal(a, newBal);
 	}
 
 }

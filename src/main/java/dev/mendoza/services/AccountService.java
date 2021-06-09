@@ -11,4 +11,5 @@ public interface AccountService {
 	List<Account> getAllAccounts(User u);
 	boolean approve(Account a);
 	boolean deny(Account a);
+	boolean changeBal(Account a, float newBal);
 }
