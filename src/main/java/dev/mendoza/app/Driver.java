@@ -91,9 +91,38 @@ public class Driver {
 												case "1": {
 													System.out.println("Approve/Reject Accounts");
 													List<Account> unapproved = new ArrayList<Account>();
-													unapproved = aService.getAllAccounts();
+													unapproved = aService.getAllUnapprovedAccounts();
 													for(Account a : unapproved) {
-														System.out.println(a);
+														System.out.println("Would you like to\n" +
+																			"(1) Approve\n" +
+																			"(2) Reject\n" +
+																			a);
+														userInputStr = userScan.nextLine();
+														if(userInputStr.matches("\\d")) {
+															switch(userInputStr) {
+																// Approve Account
+																case "1": {
+																	System.out.println("Account Approved!");
+																	aService.approve(a);
+																	break;
+																}
+																
+																// Deny Account
+																case "2": {
+																	System.out.println("Account Denied.");
+																	aService.deny(a);
+																	break;
+																}
+																
+																// Bad Admin Input
+																default : {
+																	System.out.println("I did not understand the input, skipping account.");
+																}
+															}
+														}
+														else {
+															System.out.println("I did not understand the input, skipping account.");
+														}
 													}
 													break;
 												}
