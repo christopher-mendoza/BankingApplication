@@ -15,7 +15,7 @@ public class UserDAOTests {
 
 	private UserDAO udao = new UserDAO();
 
-	@Test
+	@Test @Ignore
 	public void userAddTest() {
 		User u = new User("Chicken", "gggamer", "soup");
 		if(udao.add(u)) {

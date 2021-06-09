@@ -8,4 +8,5 @@ public interface TransactionService {
 	boolean addTransaction(Transaction t);
 	Transaction getTransaction(Integer id);
 	List<Transaction> getAllTransactions();
+	List<Transaction> getAllTransactionsByAccount(Integer accNum);
 }
