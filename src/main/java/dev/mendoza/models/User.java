@@ -8,6 +8,7 @@ public class User {
 	private String username;
 	private String password;
 	private Boolean admin;
+
 	private List<Account> accounts;
 	
 	public User() {
@@ -68,6 +69,7 @@ public class User {
 	public void setAdmin(Boolean admin) {
 		this.admin = admin;
 	}
+
 
 	public List<Account> getAccounts() {
 		return accounts;

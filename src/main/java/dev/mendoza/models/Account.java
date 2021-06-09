@@ -6,6 +6,8 @@ public class Account {
 	private Integer id;
 	private Integer accNum;
 	private Float balance;
+	private Boolean approved;
+
 	private List<Transaction> transactions;
 	
 	public Account() {
@@ -48,6 +50,14 @@ public class Account {
 	public void setBalance(Float balance) {
 		this.balance = balance;
 	}
+	
+	public Boolean getApproved() {
+		return approved;
+	}
+
+	public void setApproved(Boolean approved) {
+		this.approved = approved;
+	}
 
 	public List<Transaction> getTransactions() {
 		return transactions;
@@ -62,6 +72,7 @@ public class Account {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((accNum == null) ? 0 : accNum.hashCode());
+		result = prime * result + ((approved == null) ? 0 : approved.hashCode());
 		result = prime * result + ((balance == null) ? 0 : balance.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((transactions == null) ? 0 : transactions.hashCode());
@@ -81,6 +92,11 @@ public class Account {
 			if (other.accNum != null)
 				return false;
 		} else if (!accNum.equals(other.accNum))
+			return false;
+		if (approved == null) {
+			if (other.approved != null)
+				return false;
+		} else if (!approved.equals(other.approved))
 			return false;
 		if (balance == null) {
 			if (other.balance != null)
@@ -102,8 +118,8 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", accNum=" + accNum + ", balance=" + balance + ", transactions=" + transactions
-				+ "]";
+		return "Account [id=" + id + ", accNum=" + accNum + ", balance=" + balance + ", approved=" + approved
+				+ ", transactions=" + transactions + "]";
 	}
 
 	

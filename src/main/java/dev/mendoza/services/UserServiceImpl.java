@@ -10,14 +10,15 @@ public class UserServiceImpl implements UserService {
 	private static UserDAO udao = new UserDAO();
 	
 	@Override
-	public User addUser(User u) {
+	public boolean addUser(User u) {
 		return udao.add(u);
 	}
 
 	@Override
-	public User getUser(Integer id) {
-		return udao.getById(id);
+	public User getUser(String username) {
+		return udao.getUser(username);
 	}
+
 
 	@Override
 	public List<User> getAllUsers() {
@@ -33,5 +34,6 @@ public class UserServiceImpl implements UserService {
 	public boolean deleteUser(User u) {
 		return udao.delete(u);
 	}
+
 
 }
