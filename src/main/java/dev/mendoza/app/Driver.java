@@ -130,6 +130,19 @@ public class Driver {
 												// Admin View Customer Accounts
 												case "2": {
 													System.out.println("View Customer Accounts");
+													System.out.println("Please enter the Customer's username: ");
+													userInputStr = userScan.nextLine();
+													User view = new User();
+													view.setUsername(userInputStr);
+													List<Account> viewAcc = aService.getAllAccountsByUser(view);
+													if(viewAcc == null) {
+														break;
+													}
+													else {
+														for(Account a : viewAcc) {
+															System.out.println(a);
+														}
+													}
 													break;
 												}
 												
