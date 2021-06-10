@@ -122,6 +122,7 @@ public class Driver {
 																}
 															}
 														}
+														// Input was not a number
 														else {
 															System.out.println("I did not understand the input, skipping account.");
 														}
@@ -172,6 +173,8 @@ public class Driver {
 												}
 											}
 										}
+										
+										// Input was not a number
 										else {
 											System.out.println("I did not understand the input, please try again.");
 										}
@@ -229,6 +232,8 @@ public class Driver {
 												}
 											}
 										}
+										
+										// Input was not a number
 										else {
 											System.out.println("I did not understand the input, please try again.");
 										}
@@ -236,6 +241,8 @@ public class Driver {
 								}
 							}
 						}
+						
+						// Username does not exist
 						else {
 							System.out.println("Could not login.");
 						}
@@ -246,35 +253,28 @@ public class Driver {
 					case "2": {
 						User newUser = new User();
 						System.out.println("**********REGISTER**********");
-						System.out.println("Please enter your name or \ntype 'Q' to go back to the menu.");
+						System.out.println("Please enter your name.");
 						userInputStr = userScan.nextLine();
-						// User goes back to menu
-						if(userInputStr.equalsIgnoreCase("Q")) {
-							break;
+						newUser.setName(userInputStr);
+						System.out.println("Please enter your username.");
+						userInputStr = userScan.nextLine();
+						newUser.setUsername(userInputStr);
+						System.out.println("Please enter your password.");
+						userInputStr = userScan.nextLine();
+						newUser.setPassword(userInputStr);
+						System.out.println("Creating account:\n" +
+											"Name: " + newUser.getName() +
+											"\nUsername: " + newUser.getUsername() +
+											"\nPassword: " + newUser.getPassword() +
+											"\nAccept? (Y)");
+						userInputStr = userScan.nextLine();
+						if(userInputStr.equalsIgnoreCase("Y")) {
+							uService.addUser(newUser);
 						}
 						else {
-							newUser.setName(userInputStr);
-							System.out.println("Please enter your username or \ntype 'Q' to go back to the menu.");
-							userInputStr = userScan.nextLine();
-							if(userInputStr.equalsIgnoreCase("Q")) {
-								break;
-							}
-							else {
-								newUser.setUsername(userInputStr);
-								System.out.println("Please enter your password or \ntype 'Q' to go back to the menu.");
-								userInputStr = userScan.nextLine();
-								if(userInputStr.equalsIgnoreCase("Q")) {
-									break;
-								}
-								else {
-									newUser.setPassword(userInputStr);
-									System.out.println("Creating account:\n" +
-														"Name: " + newUser.getName() +
-														"\nUsername: " + newUser.getUsername() +
-														"\nPassword: " + newUser.getPassword());
-									uService.addUser(newUser);
-								}
-							}
+							System.out.println("Did not understand input. Please try again.");
+							
+							
 						}
 						break;
 					}
@@ -294,6 +294,8 @@ public class Driver {
 					}
 				}
 			}
+			
+			// Input was not a number
 			else {
 				System.out.println("I did not understand the input, please try again.");
 			}
