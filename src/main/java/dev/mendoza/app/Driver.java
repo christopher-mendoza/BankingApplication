@@ -190,7 +190,39 @@ public class Driver {
 											switch(userInputStr) {
 												// Customer Apply for Account
 												case "1": {
-													
+													System.out.println("Please enter an account number:");
+													userInputStr = userScan.nextLine();
+													try {
+														int accNum = Integer.parseInt(userInputStr);
+														Account reg = new Account();
+														reg.setUsername(login.getUsername());
+														reg.setAccNum(accNum);
+														System.out.println("Please enter a starting balance:");
+														userInputStr = userScan.nextLine();
+														try {
+															float startBal = Float.parseFloat(userInputStr);
+															reg.setBalance(startBal);
+															System.out.println("Creating Account:\n" +
+																				"Username: " + reg.getUsername() +
+																				"\nAccount Number: " + reg.getAccNum() + 
+																				"\nStarting Balance: " + reg.getBalance() +
+																				"\nAccept? (Y)");
+															userInputStr = userScan.nextLine();
+															if(userInputStr.equalsIgnoreCase("Y")) {
+																aService.addAccount(reg);
+																System.out.println("Account pending approval!");
+															}
+															else {
+																System.out.println("Did not understand input. Please try again.");
+															}
+														}
+														catch (NumberFormatException e) {
+															System.out.println("'" + userInputStr + "' is not a valid starting balance. Please try again.");
+														}
+													}
+													catch (NumberFormatException e) {
+														System.out.println("'" + userInputStr + "' is not a valid account number. Please try again.");
+													}
 													break;
 												}
 												
@@ -253,16 +285,16 @@ public class Driver {
 					case "2": {
 						User newUser = new User();
 						System.out.println("**********REGISTER**********");
-						System.out.println("Please enter your name.");
+						System.out.println("Please enter a name:");
 						userInputStr = userScan.nextLine();
 						newUser.setName(userInputStr);
-						System.out.println("Please enter your username.");
+						System.out.println("Please enter a username:");
 						userInputStr = userScan.nextLine();
 						newUser.setUsername(userInputStr);
-						System.out.println("Please enter your password.");
+						System.out.println("Please enter a password:");
 						userInputStr = userScan.nextLine();
 						newUser.setPassword(userInputStr);
-						System.out.println("Creating account:\n" +
+						System.out.println("Creating User:\n" +
 											"Name: " + newUser.getName() +
 											"\nUsername: " + newUser.getUsername() +
 											"\nPassword: " + newUser.getPassword() +
@@ -270,11 +302,10 @@ public class Driver {
 						userInputStr = userScan.nextLine();
 						if(userInputStr.equalsIgnoreCase("Y")) {
 							uService.addUser(newUser);
+							System.out.println("User created!");
 						}
 						else {
 							System.out.println("Did not understand input. Please try again.");
-							
-							
 						}
 						break;
 					}
