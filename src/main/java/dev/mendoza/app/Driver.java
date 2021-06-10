@@ -13,7 +13,7 @@ import dev.mendoza.services.UserServiceImpl;
 
 public class Driver {
 	
-	public static void customerOptions() {
+	public static void customerOptions(AccountServiceImpl aService, User u) {
 		System.out.println("**********USER MENU*********");
 		System.out.println("(1) Apply For New Account\n" +
 							"(2) View Balance\n" +
@@ -21,6 +21,10 @@ public class Driver {
 							"(4) Withdraw\n" + 
 							"(5) Transfer Funds\n" + 
 							"(6) Logout");
+		List<Account> custAcc = aService.getAllAccountsByUser(u);
+		for(Account a : custAcc) {
+			System.out.println(a);
+		}
 	}
 	
 	public static void adminOptions() {
@@ -185,7 +189,7 @@ public class Driver {
 								else {
 									// CUSTOMER
 									while(loggedIn) {
-										customerOptions();
+										customerOptions(aService, uService.getUser(login.getUsername()));
 										userInputStr = userScan.nextLine();
 										if(userInputStr.matches("\\d")) {
 											switch(userInputStr) {
@@ -247,9 +251,10 @@ public class Driver {
 															System.out.println("Could not find account '" + accNum + "'. Please try again.");
 															break;
 														}
-														// Check if account exists and if it belongs to logged in user
+														// Check if account exists and if it belongs to logged in user and if approved
 														else if(aService.getAccount(accNum) != null &&
-																aService.getAccount(accNum).getUsername().equals(login.getUsername())) {
+																aService.getAccount(accNum).getUsername().equals(login.getUsername()) &&
+																aService.getAccount(accNum).getApproved() == true) {
 															System.out.println("Balance for Account '" + accNum +"': " + aService.getAccount(accNum).getBalance());
 														}
 														else {
@@ -275,7 +280,8 @@ public class Driver {
 														}
 														// Check if account exists and if it belongs to logged in user
 														else if(aService.getAccount(accNum) != null &&
-																aService.getAccount(accNum).getUsername().equals(login.getUsername())) {
+																aService.getAccount(accNum).getUsername().equals(login.getUsername()) &&
+																aService.getAccount(accNum).getApproved() == true) {
 															System.out.println("Balance for Account '" + accNum +"': " + aService.getAccount(accNum).getBalance());
 															System.out.println("How much would you like to deposit (> 0):");
 															userInputStr = userScan.nextLine();
@@ -314,7 +320,50 @@ public class Driver {
 												// Customer Withdraw
 												case "4": {
 													System.out.println("Account Withdraw");
-													
+													System.out.println("Please enter your account number:");
+													userInputStr = userScan.nextLine();
+													try {
+														int accNum = Integer.parseInt(userInputStr);
+														if(aService.getAccount(accNum) == null) {
+															System.out.println("Could not find account '" + accNum + "'. Please try again.");
+															break;
+														}
+														// Check if account exists and if it belongs to logged in user
+														else if(aService.getAccount(accNum) != null &&
+																aService.getAccount(accNum).getUsername().equals(login.getUsername()) &&
+																aService.getAccount(accNum).getApproved() == true) {
+															System.out.println("Balance for Account '" + accNum +"': " + aService.getAccount(accNum).getBalance());
+															System.out.println("How much would you like to withdraw (>= balance):");
+															userInputStr = userScan.nextLine();
+															try {
+																float withdraw = Float.parseFloat(userInputStr);
+																if(withdraw > aService.getAccount(accNum).getBalance() || withdraw < 0) {
+																	System.out.println("Invalid withdraw amount, please try again.");
+																	break;
+																}
+																Account change = aService.getAccount(accNum);
+																System.out.println("Withdrawing $" + withdraw +
+																					"\nAccept? (Y)");
+																userInputStr = userScan.nextLine();
+																if(userInputStr.equalsIgnoreCase("Y")) {
+																	aService.withdraw(change, withdraw);
+																	System.out.println("Withdrew $" + withdraw);
+																}
+																else {
+																	System.out.println("Withdraw aborted.");
+																}
+															}
+															catch (NumberFormatException e) {
+																System.out.println("'" + userInputStr + "' is not a valid withdraw amount. Please try again.");
+															}
+														}
+														else {
+															System.out.println("Could not find account '" + accNum + "'. Please try again.");
+														}
+													}
+													catch (NumberFormatException e) {
+														System.out.println("'" + userInputStr + "' is not a valid account number. Please try again.");
+													}
 													break;
 												}
 												
