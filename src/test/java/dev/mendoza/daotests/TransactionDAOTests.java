@@ -18,6 +18,7 @@ public class TransactionDAOTests {
 	@Test @Ignore
 	public void transactionAddTest() {
 		Transaction t = new Transaction(24862486, 'D', 1000.465f);
+		assertEquals(true, tdao.add(t));
 		if(tdao.add(t)) {
 			System.out.println("Transaction Add Test Works");
 		}

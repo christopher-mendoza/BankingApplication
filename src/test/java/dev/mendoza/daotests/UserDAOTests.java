@@ -18,6 +18,7 @@ public class UserDAOTests {
 	@Test @Ignore
 	public void userAddTest() {
 		User u = new User("Chicken", "gggamer", "soup");
+		assertEquals(true, udao.add(u));
 		if(udao.add(u)) {
 			System.out.println("User Add Test Works");
 		}

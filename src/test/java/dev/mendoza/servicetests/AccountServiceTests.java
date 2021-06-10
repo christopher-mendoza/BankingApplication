@@ -19,12 +19,14 @@ public class AccountServiceTests {
 	@Test @Ignore
 	public void depositTest() {
 		Account a = new Account("bop", 24862486, 51020f);
+		assertEquals(true, impl.deposit(a, 80.5f));
 		System.out.println(impl.deposit(a, 80.5f));
 	}
 	
 	@Test @Ignore
 	public void withdrawTest() {
 		Account a = new Account("bop", 24862486, 1000.64f);
+		assertEquals(true, impl.withdraw(a, 500f));
 		System.out.println(impl.withdraw(a, 500f));
 	}
 	
@@ -32,6 +34,7 @@ public class AccountServiceTests {
 	public void transferTest() {
 		Account a = new Account("bop", 24862486, 5000f);
 		Account b = new Account("mari", 8008135, 5000f);
+		assertEquals(true, impl.transfer(a, b, 4000f));
 		System.out.println(impl.transfer(a, b, 4000f));
 	}
 	

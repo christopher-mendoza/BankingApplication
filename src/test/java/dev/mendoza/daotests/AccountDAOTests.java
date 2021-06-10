@@ -18,7 +18,8 @@ public class AccountDAOTests {
 	
 	@Test @Ignore
 	public void accountAddTest() {
-		Account a = new Account("slurp", 123456789, 20000.45f);
+		Account a = new Account("mari", 123456789, 20000.45f);
+		assertEquals(true, adao.add(a));
 		if(adao.add(a)) {
 			System.out.println("Account Add Test Works");
 		}
@@ -30,7 +31,7 @@ public class AccountDAOTests {
 		System.out.println(adao.getAccount(i));
 	}
 	
-	@Test
+	@Test @Ignore
 	public void accountGetAllTest() {
 		List<Account> accounts = new ArrayList<Account>();
 		accounts = adao.getAllAccounts();
@@ -41,20 +42,23 @@ public class AccountDAOTests {
 	
 	@Test @Ignore
 	public void accountApproveTest() {
-		Account a = new Account("slurp", 1234567, 20000.45f);
+		Account a = new Account("mari", 1234567, 20000.45f);
+		assertEquals(true, adao.approve(a));
 		System.out.println(adao.approve(a));
 	}
 	
 	@Test @Ignore
 	public void accountDenyTest() {
-		Account a = new Account("slurp", 12345678, 20000.45f);
+		Account a = new Account("mari", 12345678, 20000.45f);
+		assertEquals(true, adao.deny(a));
 		System.out.println(adao.deny(a));
 	}
 	
 	@Test @Ignore
 	public void accountChangeBalTest() {
-		Account a = new Account("slurp", 123456, 20000.45f);
+		Account a = new Account("mari", 123456, 20000.45f);
 		float money = 1000.69f;
+		assertEquals(true, adao.changeBal(a, money));
 		System.out.println(adao.changeBal(a, money));
 	}
 }
