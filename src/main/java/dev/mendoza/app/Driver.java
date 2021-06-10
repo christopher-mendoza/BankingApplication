@@ -83,6 +83,7 @@ public class Driver {
 								boolean loggedIn = true;
 								// Check admin status of user
 								if(uService.getUser(login.getUsername()).getAdmin() == true) {
+									// ADMIN
 									while(loggedIn) {
 										adminOptions();
 										userInputStr = userScan.nextLine();
@@ -176,8 +177,62 @@ public class Driver {
 										}
 									}
 								}
+								
 								else {
-									
+									// CUSTOMER
+									while(loggedIn) {
+										customerOptions();
+										userInputStr = userScan.nextLine();
+										if(userInputStr.matches("\\d")) {
+											switch(userInputStr) {
+												// Customer Apply for Account
+												case "1": {
+													
+													break;
+												}
+												
+												// Customer View Balance
+												case "2": {
+													
+													break;
+												}
+												
+												// Customer Deposit
+												case "3": {
+													
+													break;
+												}
+												
+												// Customer Withdraw
+												case "4": {
+													
+													break;
+												}
+												
+												// Customer Transfer Funds
+												case "5": {
+													
+													break;
+												}
+												
+												// Customer Logout
+												case "6": {
+													System.out.println("Logout");
+													loggedIn = false;
+													break;
+												}
+												
+												// Customer Input Error
+												default: {
+													userInputError(userInputStr);
+													break;
+												}
+											}
+										}
+										else {
+											System.out.println("I did not understand the input, please try again.");
+										}
+									}
 								}
 							}
 						}
