@@ -343,7 +343,7 @@ public class Driver {
 																aService.getAccount(accNum).getUsername().equals(login.getUsername()) &&
 																aService.getAccount(accNum).getApproved() == true) {
 															System.out.println("Balance for Account '" + accNum +"': $" + aService.getAccount(accNum).getBalance());
-															System.out.println("How much would you like to withdraw (>= balance):");
+															System.out.println("How much would you like to withdraw (<= balance):");
 															userInputStr = userScan.nextLine();
 															try {
 																float withdraw = Float.parseFloat(userInputStr);
@@ -396,7 +396,7 @@ public class Driver {
 																aService.getAccount(accNum1).getUsername().equals(login.getUsername()) &&
 																aService.getAccount(accNum1).getApproved() == true) {
 															System.out.println("Balance for Account '" + accNum1 +"': $" + aService.getAccount(accNum1).getBalance());
-															System.out.println("How much would you like to transfer (>= balance):");
+															System.out.println("How much would you like to transfer (<= balance):");
 															userInputStr = userScan.nextLine();
 															try {
 																float transfer = Float.parseFloat(userInputStr);
@@ -447,7 +447,7 @@ public class Driver {
 																	
 															}
 															catch (NumberFormatException e) {
-																System.out.println("'" + userInputStr + "' is not a valid withdraw amount. Please try again.");
+																System.out.println("'" + userInputStr + "' is not a valid transfer amount. Please try again.");
 															}
 														}
 														else {
@@ -482,6 +482,7 @@ public class Driver {
 									}
 								}
 							}
+							
 						}
 						
 						// Username does not exist
