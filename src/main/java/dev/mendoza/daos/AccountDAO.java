@@ -50,7 +50,6 @@ public class AccountDAO {
 			ResultSet rs = ps.executeQuery();
 			// Checks if ResultSet returns nothing (bad input)
 			if(!rs.isBeforeFirst()) {
-				System.out.println("I could not find the account \"" + accNum + "\". Please try again.");
 				return null;
 			}
 			if(rs.next()) {

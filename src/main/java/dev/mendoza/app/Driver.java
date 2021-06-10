@@ -98,6 +98,7 @@ public class Driver {
 														System.out.println("Would you like to\n" +
 																			"(1) Approve\n" +
 																			"(2) Reject\n" +
+																			"(Other) Skip\n" +
 																			a);
 														userInputStr = userScan.nextLine();
 														if(userInputStr.matches("\\d")) {
@@ -118,13 +119,13 @@ public class Driver {
 																
 																// Bad Admin Input
 																default : {
-																	System.out.println("I did not understand the input, skipping account.");
+																	System.out.println("Skipping account.");
 																}
 															}
 														}
 														// Input was not a number
 														else {
-															System.out.println("I did not understand the input, skipping account.");
+															System.out.println("Skipping account.");
 														}
 													}
 													break;
@@ -190,17 +191,26 @@ public class Driver {
 											switch(userInputStr) {
 												// Customer Apply for Account
 												case "1": {
-													System.out.println("Please enter an account number:");
+													System.out.println("Account Application");
+													System.out.println("Please enter an account number (> 0):");
 													userInputStr = userScan.nextLine();
 													try {
 														int accNum = Integer.parseInt(userInputStr);
+														if(accNum < 0 || aService.getAccount(accNum) != null) {
+															System.out.println("Account number invalid, please try again.");
+															break;
+														}
 														Account reg = new Account();
 														reg.setUsername(login.getUsername());
 														reg.setAccNum(accNum);
-														System.out.println("Please enter a starting balance:");
+														System.out.println("Please enter a starting balance (>= 0):");
 														userInputStr = userScan.nextLine();
 														try {
 															float startBal = Float.parseFloat(userInputStr);
+															if(startBal < 0) {
+																System.out.println("Starting balance invalid, please try again.");
+																break;
+															}
 															reg.setBalance(startBal);
 															System.out.println("Creating Account:\n" +
 																				"Username: " + reg.getUsername() +
@@ -213,7 +223,7 @@ public class Driver {
 																System.out.println("Account pending approval!");
 															}
 															else {
-																System.out.println("Did not understand input. Please try again.");
+																System.out.println("Account creation aborted.");
 															}
 														}
 														catch (NumberFormatException e) {
@@ -228,25 +238,46 @@ public class Driver {
 												
 												// Customer View Balance
 												case "2": {
-													
+													System.out.println("View Account Balance");
+													System.out.println("Please enter your account number:");
+													userInputStr = userScan.nextLine();
+													try {
+														int accNum = Integer.parseInt(userInputStr);
+														if(aService.getAccount(accNum) == null) {
+															System.out.println("Could not find account '" + accNum + "'. Please try again.");
+															break;
+														}
+														// Check if account exists and if it belongs to logged in user
+														else if(aService.getAccount(accNum) != null &&
+																aService.getAccount(accNum).getUsername().equals(login.getUsername())) {
+															System.out.println("Balance for Account '" + accNum +"': " + aService.getAccount(accNum).getBalance());
+														}
+														else {
+															System.out.println("Could not find account '" + accNum + "'. Please try again.");
+														}
+													}
+													catch (NumberFormatException e) {
+														System.out.println("'" + userInputStr + "' is not a valid account number. Please try again.");
+													}
 													break;
 												}
 												
 												// Customer Deposit
 												case "3": {
-													
+													System.out.println("Account Deposit");
 													break;
 												}
 												
 												// Customer Withdraw
 												case "4": {
+													System.out.println("Account Withdraw");
 													
 													break;
 												}
 												
 												// Customer Transfer Funds
 												case "5": {
-													
+													System.out.println("Account Fund Transfer");
 													break;
 												}
 												
