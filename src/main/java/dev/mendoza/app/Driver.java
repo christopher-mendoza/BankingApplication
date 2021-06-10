@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import dev.mendoza.models.Account;
+import dev.mendoza.models.Transaction;
 import dev.mendoza.models.User;
 import dev.mendoza.services.AccountServiceImpl;
 import dev.mendoza.services.TransactionServiceImpl;
@@ -149,6 +150,10 @@ public class Driver {
 												// Admin View All Transactions
 												case "3": {
 													System.out.println("View All Transactions");
+													List<Transaction> allTrans = tService.getAllTransactions();
+													for(Transaction t : allTrans) {
+														System.out.println(t);
+													}
 													break;
 												}
 					
