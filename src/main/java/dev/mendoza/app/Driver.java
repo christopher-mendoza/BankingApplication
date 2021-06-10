@@ -88,6 +88,7 @@ public class Driver {
 							// Check password is tied to username
 							if(uService.getUser(login.getUsername()).getPassword().equals(login.getPassword())) {
 								boolean loggedIn = true;
+								AppLogger.logger.info("Logged in as: " + login.getUsername());
 								// Check admin status of user
 								if(uService.getUser(login.getUsername()).getAdmin() == true) {
 									// ADMIN
@@ -113,6 +114,7 @@ public class Driver {
 																// Approve Account
 																case "1": {
 																	System.out.println("Account Approved!");
+																	AppLogger.logger.info("Approved Account: " + a);
 																	aService.approve(a);
 																	break;
 																}
@@ -120,6 +122,7 @@ public class Driver {
 																// Deny Account
 																case "2": {
 																	System.out.println("Account Denied.");
+																	AppLogger.logger.info("Denied Account: " + a);
 																	aService.deny(a);
 																	break;
 																}
@@ -226,6 +229,7 @@ public class Driver {
 																				"\nAccept? (Y)");
 															userInputStr = userScan.nextLine();
 															if(userInputStr.equalsIgnoreCase("Y")) {
+																AppLogger.logger.info("Account created: " + reg);
 																aService.addAccount(reg);
 																System.out.println("Account pending approval!");
 															}
@@ -299,6 +303,7 @@ public class Driver {
 																					"\nAccept? (Y)");
 																userInputStr = userScan.nextLine();
 																if(userInputStr.equalsIgnoreCase("Y")) {
+																	AppLogger.logger.info("Deposited $" + deposit + " into Account " + accNum);
 																	Transaction t = new Transaction(accNum, 'D', deposit);
 																	aService.deposit(change, deposit);
 																	tService.addTransaction(t);
@@ -351,6 +356,7 @@ public class Driver {
 																					"\nAccept? (Y)");
 																userInputStr = userScan.nextLine();
 																if(userInputStr.equalsIgnoreCase("Y")) {
+																	AppLogger.logger.info("Withdrew $" + withdraw + " from Account " + accNum);
 																	Transaction t = new Transaction(accNum, 'W', withdraw);
 																	aService.withdraw(change, withdraw);
 																	tService.addTransaction(t);
@@ -417,6 +423,8 @@ public class Driver {
 																							"\nAccept? (Y)");
 																		userInputStr = userScan.nextLine();
 																		if(userInputStr.equalsIgnoreCase("Y")) {
+																				AppLogger.logger.info("Withdrew $" + transfer + " from Account " + accNum1);
+																				AppLogger.logger.info("Deposit $" + transfer + " into Account " + accNum2);
 																				Transaction t1 = new Transaction(accNum1, 'W', transfer);
 																				Transaction t2 = new Transaction(accNum2, 'D', transfer);
 																				aService.withdraw(acc1, transfer);
@@ -503,6 +511,7 @@ public class Driver {
 											"\nAccept? (Y)");
 						userInputStr = userScan.nextLine();
 						if(userInputStr.equalsIgnoreCase("Y")) {
+							AppLogger.logger.info("User created: " + newUser);
 							uService.addUser(newUser);
 							System.out.println("User created!");
 						}
@@ -515,6 +524,7 @@ public class Driver {
 					// Quit
 					case "3": {
 						System.out.println("************QUIT***********");
+						AppLogger.logger.info("Program Terminated");
 						System.out.println("Thank you for using the Mendoza Banking App!");
 						userScan.close();
 						instance = false;
