@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import dev.mendoza.utils.AppLogger;
 import dev.mendoza.models.Account;
 import dev.mendoza.models.Transaction;
 import dev.mendoza.models.User;
@@ -22,8 +23,10 @@ public class Driver {
 							"(5) Transfer Funds\n" + 
 							"(6) Logout");
 		List<Account> custAcc = aService.getAllAccountsByUser(u);
-		for(Account a : custAcc) {
-			System.out.println(a);
+		if(custAcc != null) {
+			for(Account a : custAcc) {
+				System.out.println(a);
+			}
 		}
 	}
 	
@@ -61,7 +64,7 @@ public class Driver {
 		AccountServiceImpl aService = new AccountServiceImpl();
 		TransactionServiceImpl tService = new TransactionServiceImpl();
 		
-		
+		AppLogger.logger.info("Program Started.");
 		System.out.println("Hello! Welcome to the Mendoza Bank!");
 		while(instance) {
 			loginOptions();
@@ -219,7 +222,7 @@ public class Driver {
 															System.out.println("Creating Account:\n" +
 																				"Username: " + reg.getUsername() +
 																				"\nAccount Number: " + reg.getAccNum() + 
-																				"\nStarting Balance: " + reg.getBalance() +
+																				"\nStarting Balance: $" + reg.getBalance() +
 																				"\nAccept? (Y)");
 															userInputStr = userScan.nextLine();
 															if(userInputStr.equalsIgnoreCase("Y")) {
@@ -255,7 +258,7 @@ public class Driver {
 														else if(aService.getAccount(accNum) != null &&
 																aService.getAccount(accNum).getUsername().equals(login.getUsername()) &&
 																aService.getAccount(accNum).getApproved() == true) {
-															System.out.println("Balance for Account '" + accNum +"': " + aService.getAccount(accNum).getBalance());
+															System.out.println("Balance for Account '" + accNum +"': $" + aService.getAccount(accNum).getBalance());
 														}
 														else {
 															System.out.println("Could not find account '" + accNum + "'. Please try again.");
@@ -282,7 +285,7 @@ public class Driver {
 														else if(aService.getAccount(accNum) != null &&
 																aService.getAccount(accNum).getUsername().equals(login.getUsername()) &&
 																aService.getAccount(accNum).getApproved() == true) {
-															System.out.println("Balance for Account '" + accNum +"': " + aService.getAccount(accNum).getBalance());
+															System.out.println("Balance for Account '" + accNum +"': $" + aService.getAccount(accNum).getBalance());
 															System.out.println("How much would you like to deposit (> 0):");
 															userInputStr = userScan.nextLine();
 															try {
@@ -296,7 +299,9 @@ public class Driver {
 																					"\nAccept? (Y)");
 																userInputStr = userScan.nextLine();
 																if(userInputStr.equalsIgnoreCase("Y")) {
+																	Transaction t = new Transaction(accNum, 'D', deposit);
 																	aService.deposit(change, deposit);
+																	tService.addTransaction(t);
 																	System.out.println("Deposited $" + deposit);
 																}
 																else {
@@ -332,7 +337,7 @@ public class Driver {
 														else if(aService.getAccount(accNum) != null &&
 																aService.getAccount(accNum).getUsername().equals(login.getUsername()) &&
 																aService.getAccount(accNum).getApproved() == true) {
-															System.out.println("Balance for Account '" + accNum +"': " + aService.getAccount(accNum).getBalance());
+															System.out.println("Balance for Account '" + accNum +"': $" + aService.getAccount(accNum).getBalance());
 															System.out.println("How much would you like to withdraw (>= balance):");
 															userInputStr = userScan.nextLine();
 															try {
@@ -346,7 +351,9 @@ public class Driver {
 																					"\nAccept? (Y)");
 																userInputStr = userScan.nextLine();
 																if(userInputStr.equalsIgnoreCase("Y")) {
+																	Transaction t = new Transaction(accNum, 'W', withdraw);
 																	aService.withdraw(change, withdraw);
+																	tService.addTransaction(t);
 																	System.out.println("Withdrew $" + withdraw);
 																}
 																else {
@@ -370,6 +377,78 @@ public class Driver {
 												// Customer Transfer Funds
 												case "5": {
 													System.out.println("Account Fund Transfer");
+													System.out.println("Please enter your account number of the account you want to take from:");
+													userInputStr = userScan.nextLine();
+													try {
+														int accNum1 = Integer.parseInt(userInputStr);
+														if(aService.getAccount(accNum1) == null) {
+															System.out.println("Could not find account '" + accNum1 + "'. Please try again.");
+															break;
+														}
+														// Check if account exists and if it belongs to logged in user
+														else if(aService.getAccount(accNum1) != null &&
+																aService.getAccount(accNum1).getUsername().equals(login.getUsername()) &&
+																aService.getAccount(accNum1).getApproved() == true) {
+															System.out.println("Balance for Account '" + accNum1 +"': $" + aService.getAccount(accNum1).getBalance());
+															System.out.println("How much would you like to transfer (>= balance):");
+															userInputStr = userScan.nextLine();
+															try {
+																float transfer = Float.parseFloat(userInputStr);
+																if(transfer > aService.getAccount(accNum1).getBalance() || transfer < 0) {
+																	System.out.println("Invalid transfer amount, please try again.");
+																	break;
+																}
+																System.out.println("Please enter the account number to deposit into:");
+																userInputStr = userScan.nextLine();
+																try {
+																	int accNum2 = Integer.parseInt(userInputStr);
+																	if(aService.getAccount(accNum2) == null) {
+																		System.out.println("Could not find account '" + accNum2+ "'. Please try again.");
+																		break;
+																	}
+																	// Check if account exists and if it belongs to logged in user
+																	else if(aService.getAccount(accNum2) != null &&
+																			aService.getAccount(accNum2).getUsername().equals(login.getUsername()) &&
+																			aService.getAccount(accNum2).getApproved() == true) {
+																		Account acc1 = aService.getAccount(accNum1);
+																		Account acc2 = aService.getAccount(accNum2);
+																		System.out.println("Depositing $" + transfer + " to " + accNum2 +
+																							" from " + accNum1 +
+																							"\nAccept? (Y)");
+																		userInputStr = userScan.nextLine();
+																		if(userInputStr.equalsIgnoreCase("Y")) {
+																				Transaction t1 = new Transaction(accNum1, 'W', transfer);
+																				Transaction t2 = new Transaction(accNum2, 'D', transfer);
+																				aService.withdraw(acc1, transfer);
+																				tService.addTransaction(t1);
+																				tService.addTransaction(t2);
+																				aService.deposit(acc2, transfer);
+																				System.out.println("Successfully Transferred");
+																		}
+																		else {
+																			System.out.println("Transfer aborted.");
+																		}
+																	}
+																	else {
+																		System.out.println("Could not find account '" + accNum2 + "'. Please try again.");
+																	}
+																}
+																catch (NumberFormatException e) {
+																	System.out.println("'" + userInputStr + "' is not a valid account number. Please try again.");
+																}
+																	
+															}
+															catch (NumberFormatException e) {
+																System.out.println("'" + userInputStr + "' is not a valid withdraw amount. Please try again.");
+															}
+														}
+														else {
+															System.out.println("Could not find account '" + accNum1 + "'. Please try again.");
+														}
+													}
+													catch (NumberFormatException e) {
+														System.out.println("'" + userInputStr + "' is not a valid account number. Please try again.");
+													}
 													break;
 												}
 												
@@ -437,6 +516,7 @@ public class Driver {
 					case "3": {
 						System.out.println("************QUIT***********");
 						System.out.println("Thank you for using the Mendoza Banking App!");
+						userScan.close();
 						instance = false;
 						break;
 					}
