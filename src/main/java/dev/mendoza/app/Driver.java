@@ -265,6 +265,49 @@ public class Driver {
 												// Customer Deposit
 												case "3": {
 													System.out.println("Account Deposit");
+													System.out.println("Please enter your account number:");
+													userInputStr = userScan.nextLine();
+													try {
+														int accNum = Integer.parseInt(userInputStr);
+														if(aService.getAccount(accNum) == null) {
+															System.out.println("Could not find account '" + accNum + "'. Please try again.");
+															break;
+														}
+														// Check if account exists and if it belongs to logged in user
+														else if(aService.getAccount(accNum) != null &&
+																aService.getAccount(accNum).getUsername().equals(login.getUsername())) {
+															System.out.println("Balance for Account '" + accNum +"': " + aService.getAccount(accNum).getBalance());
+															System.out.println("How much would you like to deposit (> 0):");
+															userInputStr = userScan.nextLine();
+															try {
+																float deposit = Float.parseFloat(userInputStr);
+																if(deposit < 0) {
+																	System.out.println("Invalid deposit amount, please try again.");
+																	break;
+																}
+																Account change = aService.getAccount(accNum);
+																System.out.println("Depositing $" + deposit +
+																					"\nAccept? (Y)");
+																userInputStr = userScan.nextLine();
+																if(userInputStr.equalsIgnoreCase("Y")) {
+																	aService.deposit(change, deposit);
+																	System.out.println("Deposited $" + deposit);
+																}
+																else {
+																	System.out.println("Deposit aborted.");
+																}
+															}
+															catch (NumberFormatException e) {
+																System.out.println("'" + userInputStr + "' is not a valid deposit amount. Please try again.");
+															}
+														}
+														else {
+															System.out.println("Could not find account '" + accNum + "'. Please try again.");
+														}
+													}
+													catch (NumberFormatException e) {
+														System.out.println("'" + userInputStr + "' is not a valid account number. Please try again.");
+													}
 													break;
 												}
 												
