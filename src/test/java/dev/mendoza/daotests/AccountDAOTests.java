@@ -16,7 +16,7 @@ public class AccountDAOTests {
 
 	AccountDAO adao = new AccountDAO();
 	
-	@Test @Ignore
+	@Test
 	public void accountAddTest() {
 		Account a = new Account("mari", 123456789, 20000.45f);
 		assertEquals(true, adao.add(a));
@@ -40,21 +40,21 @@ public class AccountDAOTests {
 		}
 	}
 	
-	@Test @Ignore
+	@Test 
 	public void accountApproveTest() {
 		Account a = new Account("mari", 1234567, 20000.45f);
 		assertEquals(true, adao.approve(a));
 		System.out.println(adao.approve(a));
 	}
 	
-	@Test @Ignore
+	@Test 
 	public void accountDenyTest() {
 		Account a = new Account("mari", 12345678, 20000.45f);
 		assertEquals(true, adao.deny(a));
 		System.out.println(adao.deny(a));
 	}
 	
-	@Test @Ignore
+	@Test
 	public void accountChangeBalTest() {
 		Account a = new Account("mari", 123456, 20000.45f);
 		float money = 1000.69f;
